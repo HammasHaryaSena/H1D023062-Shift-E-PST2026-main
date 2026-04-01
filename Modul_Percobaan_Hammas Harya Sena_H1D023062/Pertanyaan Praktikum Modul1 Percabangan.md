@@ -16,63 +16,37 @@ Fungsi `delay(timeDelay)` adalah menghentikan sementara proses eksekusi kode pad
 _Source Code:_
 
 ```cpp
-const int ledPin = 12;
-int timeDelay = 100;
+const int ledPin = 12;      
+int timeDelay;              
 
-void setup() {
-    pinMode(ledPin, OUTPUT);
-}
+void setup() { 
+  pinMode(ledPin, OUTPUT);  
+  
+  for (timeDelay = 1000; timeDelay >= 200; timeDelay -= 200) {
+    digitalWrite(ledPin, HIGH); 
+    delay(timeDelay);           
+    digitalWrite(ledPin, LOW);  
+    delay(timeDelay);           
+  }
 
-void loop() {
-    digitalWrite(ledPin, HIGH);
-    delay(timeDelay);
-    digitalWrite(ledPin, LOW);
-    delay(timeDelay);
+  timeDelay = 600;
+  digitalWrite(ledPin, HIGH);   
+  delay(timeDelay);            
+  digitalWrite(ledPin, LOW);   
+  delay(timeDelay);   
+  digitalWrite(ledPin, LOW);
+} 
 
-    if (timeDelay >= 1000) {
-        digitalWrite(ledPin, LOW);
-        delay(3000);
-        timeDelay = 100;
-    } else {
-        timeDelay += 100;
-    }
+void loop() { 
 }
 ```
 
-Penjelasan Baris per Baris:
+- void setup(): Saya memindahkan logika ke dalam setup karena setup hanya berjalan satu kali. Ini adalah cara termudah agar program tidak reset (mengulang) ke awal.
 
-const int ledPin = 12; : Mendeklarasikan konstanta bertipe integer bernama ledPin dan menetapkannya ke pin 12. Nilainya tidak bisa diubah (read-only).
+- for (timeDelay = 1000; ...): Baris ini menangani alur Lambat → Cepat. Nilai awal 1000ms akan dikurangi 200ms terus-menerus sampai menyentuh angka 200ms.
 
-int timeDelay = 100; : Mendeklarasikan variabel integer timeDelay dengan nilai awal 100 ms. Dimulai dari angka kecil agar fase pertama langsung berkedip cepat.
+- timeDelay = 600: Setelah putaran cepat selesai, kita secara manual mengatur jeda ke angka menengah (600ms) untuk menciptakan fase Sedang.
 
-void setup() { : Fungsi bawaan Arduino yang hanya dieksekusi satu kali saat mikrokontroler pertama kali dihidupkan atau direset.
+- digitalWrite(ledPin, LOW) (Terakhir): Memastikan LED dalam keadaan mati setelah semua urutan kedip selesai.
 
-pinMode(ledPin, OUTPUT); : Mengonfigurasi pin 12 (yang disimpan di ledPin) agar berfungsi sebagai jalur keluaran arus listrik (output).
-
-} : Menutup blok fungsi setup().
-
-void loop() { : Fungsi bawaan Arduino yang akan dieksekusi secara terus-menerus tanpa henti.
-
-digitalWrite(ledPin, HIGH); : Mengirimkan sinyal digital bernilai HIGH (tegangan 5V) ke pin 12 untuk menyalakan LED.
-
-delay(timeDelay); : Menghentikan sementara program selama waktu timeDelay (saat ini LED sedang menyala).
-
-digitalWrite(ledPin, LOW); : Mengirimkan sinyal digital bernilai LOW (tegangan 0V) ke pin 12 untuk mematikan LED.
-
-delay(timeDelay); : Menghentikan sementara program selama waktu timeDelay (saat ini LED sedang mati).
-
-if (timeDelay >= 1000) { : Memeriksa kondisi apakah nilai penundaan sudah mencapai 1000 ms (batas kelambatan).
-
-digitalWrite(ledPin, LOW); : Jika kondisi if terpenuhi, pastikan LED dimatikan.
-
-delay(3000); : Menahan kondisi mati tersebut selama 3000 ms (3 detik) untuk menciptakan efek mati/jeda.
-
-timeDelay = 100; : Mereset variabel timeDelay kembali ke 100 ms agar siklus berulang dari awal.
-
-} else { : Jika kondisi if tidak terpenuhi (nilai timeDelay masih di bawah 1000 ms).
-
-timeDelay += 100; : Menambahkan 100 ms ke nilai timeDelay saat ini, sehingga pada putaran loop berikutnya kedipan akan menjadi lebih lambat secara bertahap (fase sedang).
-
-} : Menutup blok percabangan if-else.
-
-} : Menutup blok fungsi loop().
+- void loop() { }: Dengan membiarkan bagian ini kosong, Arduino tidak akan melakukan apa-apa lagi setelah urutan di setup selesai. LED akan tetap mati selamanya kecuali tombol reset pada papan Arduino ditekan atau kabel power dicabut-pasang kembali.
