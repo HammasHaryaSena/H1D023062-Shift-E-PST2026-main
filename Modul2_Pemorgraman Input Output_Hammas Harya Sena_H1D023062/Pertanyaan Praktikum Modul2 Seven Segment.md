@@ -2,7 +2,7 @@ Bagian 2.5.4: Seven Segment
 
 **1. Gambarkan rangkaian schematic yang digunakan pada percobaan!**
 
-<img width="661" height="380" alt="Image" src="https://github.com/user-attachments/assets/09e3fdfe-26d6-4f0d-a18e-6974399fc151" />
+<img width="892" height="620" alt="Image" src="https://github.com/user-attachments/assets/348145f1-4ce5-4707-941c-40f5fef4607d" />
 
 **2. Apa yang terjadi jika nilai `num` lebih dari 15?**
 Apabila nilai variabel `num` melebihi 15, program akan mengalami _out of bounds array access_. Artinya, mikrokontroler dipaksa untuk membaca indeks memori di luar batas _array_ `digitPattern` yang hanya dideklarasikan hingga indeks ke-15. Akibatnya, data yang dikirim ke _Seven Segment_ berisi nilai acak/tidak terdefinisi, yang menyebabkan lampu segmen menyala dengan pola yang tidak beraturan (_glitch_) atau mati sama sekali.
